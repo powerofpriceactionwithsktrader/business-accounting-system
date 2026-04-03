@@ -1,0 +1,38 @@
+// This is the Prisma schema file for the business-accounting-system
+
+model Invoice {
+  id          Int     @id @default(autoincrement())
+  client      Client  @relation(fields: [clientId], references: [id])
+  clientId    Int
+  amount      Float
+  gst         GST     @relation(fields: [gstId], references: [id])
+  gstId       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Client {
+  id          Int       @id @default(autoincrement())
+  name        String
+  email       String    @unique
+  invoices     Invoice[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model GST {
+  id          Int     @id @default(autoincrement())
+  rate        Float
+  invoices     Invoice[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model User {
+  id          Int     @id @default(autoincrement())
+  username    String  @unique
+  email       String  @unique
+  password     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
